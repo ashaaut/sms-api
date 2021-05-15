@@ -29,10 +29,9 @@ app.post('/message', async (req, res) => {
 
 })
 app.get('/messages', async(req, res) => {
-    const {requestBy,target}=req.query
     const db = await getDb()
     const messageCollection=await db.collection("messages")
-    const result = await messageCollection.find({requestBy,target }).toArray();
+    const result = await messageCollection.find(req.query).toArray();
     const updatedResult=result.map(doc=>{
         return {...doc ,messageStatus:"read"}
     })
